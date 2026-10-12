@@ -20,8 +20,14 @@ from homeassistant.helpers.selector import (
 from .const import (
     CONF_MAC_SUFFIX,
     CONF_PORT,
+    CONF_POWER_FAST_DROP_THRESHOLD,
+    CONF_POWER_FILTER_SECONDS,
+    CONF_POWER_OFFSET,
     CONF_PRODUCT_ID,
     CONF_SERIAL,
+    DEFAULT_POWER_FAST_DROP_THRESHOLD,
+    DEFAULT_POWER_FILTER_SECONDS,
+    DEFAULT_POWER_OFFSET,
     DEFAULT_PRODUCT_ID,
     DEFAULT_VALUES,
     DOMAIN,
@@ -214,6 +220,9 @@ class EcotrackerConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                             for key, value in DEFAULT_VALUES.items()
                         },
                         **{f"{key}_omit": False for key in DEFAULT_VALUES},
+                        CONF_POWER_FILTER_SECONDS: DEFAULT_POWER_FILTER_SECONDS,
+                        CONF_POWER_FAST_DROP_THRESHOLD: DEFAULT_POWER_FAST_DROP_THRESHOLD,
+                        CONF_POWER_OFFSET: DEFAULT_POWER_OFFSET,
                     },
                 )
 
@@ -242,13 +251,29 @@ class EcotrackerOptionsFlow(config_entries.OptionsFlow):
     async def async_step_init(self, user_input: dict[str, Any] | None = None):
         current = dict(self.config_entry.options)
         show_all = bool(current.get(CONF_SHOW_ALL_SENSORS, False))
+        filter_seconds = current.get(
+            CONF_POWER_FILTER_SECONDS, DEFAULT_POWER_FILTER_SECONDS
+        )
+        fast_drop_threshold = current.get(
+            CONF_POWER_FAST_DROP_THRESHOLD, DEFAULT_POWER_FAST_DROP_THRESHOLD
+        )
+        power_offset = current.get(CONF_POWER_OFFSET, DEFAULT_POWER_OFFSET)
 
         if user_input is not None:
-            # Persist all entity / fallback / omit triples. Empty entity
-            # selections come back as missing keys; normalise to an explicit
+            # Persist all entity / fallback / omit triples and filter settings.
+            # Empty entity selections come back as missing keys; normalise to an explicit
             # `None` so api.py's `options.get(...)` keeps working as before.
             new_options: dict[str, Any] = {
                 CONF_SHOW_ALL_SENSORS: bool(user_input.get(CONF_SHOW_ALL_SENSORS)),
+                CONF_POWER_FILTER_SECONDS: user_input.get(
+                    CONF_POWER_FILTER_SECONDS, DEFAULT_POWER_FILTER_SECONDS
+                ),
+                CONF_POWER_FAST_DROP_THRESHOLD: user_input.get(
+                    CONF_POWER_FAST_DROP_THRESHOLD, DEFAULT_POWER_FAST_DROP_THRESHOLD
+                ),
+                CONF_POWER_OFFSET: user_input.get(
+                    CONF_POWER_OFFSET, DEFAULT_POWER_OFFSET
+                ),
             }
             for key in DEFAULT_VALUES:
                 entity_key = f"{key}_entity"
@@ -263,6 +288,27 @@ class EcotrackerOptionsFlow(config_entries.OptionsFlow):
             vol.Required(
                 CONF_SHOW_ALL_SENSORS, default=show_all
             ): bool,
+            vol.Optional(
+                CONF_POWER_FILTER_SECONDS, default=filter_seconds
+            ): NumberSelector(
+                NumberSelectorConfig(
+                    mode=NumberSelectorMode.BOX, min=0, step=1, unit_of_measurement="s"
+                )
+            ),
+            vol.Optional(
+                CONF_POWER_FAST_DROP_THRESHOLD, default=fast_drop_threshold
+            ): NumberSelector(
+                NumberSelectorConfig(
+                    mode=NumberSelectorMode.BOX, min=0, step=1, unit_of_measurement="W"
+                )
+            ),
+            vol.Optional(
+                CONF_POWER_OFFSET, default=power_offset
+            ): NumberSelector(
+                NumberSelectorConfig(
+                    mode=NumberSelectorMode.BOX, step="any", unit_of_measurement="W"
+                )
+            ),
         }
         for key, default_value in DEFAULT_VALUES.items():
             entity_key = f"{key}_entity"

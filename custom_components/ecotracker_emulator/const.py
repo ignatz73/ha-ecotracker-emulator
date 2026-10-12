@@ -21,6 +21,15 @@ CONF_PORT = "port"
 # Legacy-Key (wurde fuer Setups vor 2026-05-14 verwendet)
 CONF_LEGACY_SERVICE_NAME = "service_name"
 
+# Optionsschluessel fuer Tiefpassfilter, Fast-Drop und Offset
+CONF_POWER_FILTER_SECONDS = "power_filter_seconds"
+CONF_POWER_FAST_DROP_THRESHOLD = "power_fast_drop_threshold"
+CONF_POWER_OFFSET = "power_offset"
+
+DEFAULT_POWER_FILTER_SECONDS = 0
+DEFAULT_POWER_FAST_DROP_THRESHOLD = 0
+DEFAULT_POWER_OFFSET = 0
+
 # API Pfad
 API_PATH = "/v1/json"
 

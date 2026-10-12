@@ -48,8 +48,12 @@ EcoFlow-Wechselrichter keine Messwerte. Hier setzt diese Integration an:
   konfigurierten Namen (`ecotracker-<MAC>`), inklusive der TXT-Records `serial`,
   `productid` und `ip`.
 - Auf `http://<HA-IP>:8123/v1/json` wird die EcoTracker-kompatible JSON-Payload
-  zurückgegeben (Felder: `power`, `powerAvg`, `agePower`, `powerPhase1..3`,
+  ausgeliefert (Felder: `power`, `powerAvg`, `agePower`, `powerPhase1..3`,
   `energyCounterIn`, `energyCounterOut`).
+- **Leistungs-Verarbeitung (Filterung & Offset)**:
+  - **Tiefpassfilter**: Konfigurierbare Zeitkonstante in Sekunden zur Glättung von Leistungsschwankungen.
+  - **Sofortige Verbrauchsreduzierung (Fast-Drop)**: Geht der Verbrauch um mindestens einen eingestellten Watt-Betrag zurück (z. B. von 200W auf 150W bei 20W Schwellwert), wird der Tiefpassfilter sofort umgangen und der neue Wert direkt übernommen.
+  - **Leistungs-Offset**: Konfigurierbarer Offset in Watt, der auf das Endergebnis aufaddiert wird.
 - Energiezähler werden in **Wattstunden (Wh)** erwartet – passend zur offiziellen Spec
   (siehe [`docs/api-spec.md`](docs/api-spec.md)).
 

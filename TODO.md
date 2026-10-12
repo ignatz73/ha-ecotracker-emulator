@@ -258,6 +258,13 @@ _(none currently open)_
 Resolved items, newest first. Keep the resolution note so we remember _why_ something was
 changed.
 
+### 2026-10-11
+- [x] 🟠 **Power Low-pass filter, Fast-drop threshold, and Power Offset.**
+  Configurable via the integration's options flow:
+  - `power_filter_seconds`: Low-pass filter time constant in seconds (0 = disabled).
+  - `power_fast_drop_threshold`: Bypasses the low-pass filter immediately when power consumption decreases by $\ge$ threshold in Watts (0 = disabled).
+  - `power_offset`: Static power offset in Watts added to the output result.
+
 ### 2026-05-17
 - [x] 🟢 **Eindampfen `localtibber-discharge-only-ecoflow/` to a templates-free
   recipe.** Live testing on the same day showed that the clamp-to-non-negative jinjas

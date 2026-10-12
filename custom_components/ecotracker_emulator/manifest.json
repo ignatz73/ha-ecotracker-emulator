@@ -1,7 +1,7 @@
 {
   "domain": "ecotracker_emulator",
   "name": "EcoTracker Emulator",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "requirements": [],
   "dependencies": ["http", "network", "zeroconf"],
   "codeowners": ["@wwerther"],

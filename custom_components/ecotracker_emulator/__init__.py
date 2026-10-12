@@ -49,6 +49,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         "entry": entry,
         "aiozc": aiozc,
         "service_info": service_info,
+        "filter_state": {},
     }
 
     # Options-Update abfangen

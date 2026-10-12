@@ -42,6 +42,9 @@
         "description": "Für jedes Feld der EcoTracker-`/v1/json`-Antwort kannst du einen Home-Assistant-Sensor wählen, dessen Zustand gemeldet wird. Wenn kein Sensor gesetzt ist – oder sein Zustand `unknown`/`unavailable` ist – wird der numerische Fallback verwendet (oder das Feld komplett weggelassen, wenn die jeweilige *Weglassen*-Checkbox aktiv ist). Energiezähler werden in Wattstunden (Wh) erwartet. Die Sensor-Auswahl ist nach passender `device_class` und Einheit vorgefiltert (W/kW für Leistung, Wh/kWh für Energie); aktiviere *Alle Sensoren zeigen*, um den Filter abzuschalten.",
         "data": {
           "show_all_sensors": "Alle Sensoren zeigen (Filter nach device_class / Einheit deaktivieren)",
+          "power_filter_seconds": "Tiefpassfilter Zeitkonstante für Leistung (Sekunden, 0 = deaktiviert)",
+          "power_fast_drop_threshold": "Schwellwert für sofortige Verbrauchsreduzierung (W, 0 = deaktiviert)",
+          "power_offset": "Leistungs-Offset (W)",
           "power_entity": "power – Sensor",
           "power_fallback": "power – Fallback (W)",
           "power_omit": "power – weglassen, wenn kein Sensorwert",

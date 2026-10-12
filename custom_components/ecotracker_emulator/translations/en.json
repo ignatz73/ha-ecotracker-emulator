@@ -42,6 +42,9 @@
         "description": "For each field of the EcoTracker `/v1/json` response you can pick a Home Assistant sensor whose state will be served. If no sensor is set – or its state is unknown/unavailable – the numeric fallback is used (or the field is omitted entirely if its *Omit* checkbox is enabled). Energy counters are in watt-hours (Wh). The sensor pickers are pre-filtered by `device_class` and matching units (W/kW for power, Wh/kWh for energy); enable *Show all sensors* to disable that filter.",
         "data": {
           "show_all_sensors": "Show all sensors (disable device_class / unit filter)",
+          "power_filter_seconds": "Low-pass filter time constant for power (seconds, 0 = disabled)",
+          "power_fast_drop_threshold": "Fast-drop threshold for power (W, 0 = disabled)",
+          "power_offset": "Power offset (W)",
           "power_entity": "power – sensor",
           "power_fallback": "power – fallback (W)",
           "power_omit": "power – omit when no sensor value",

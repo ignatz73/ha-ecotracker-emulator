@@ -48,6 +48,10 @@ the EcoFlow inverter receives no readings. This integration closes that gap:
 - `http://<HA-IP>:8123/v1/json` returns the EcoTracker-compatible JSON payload (fields:
   `power`, `powerAvg`, `agePower`, `powerPhase1..3`, `energyCounterIn`,
   `energyCounterOut`).
+- **Power processing (filtering & offset)**:
+  - **Low-pass filter**: Configurable time constant in seconds to smooth power fluctuations.
+  - **Fast-drop threshold**: If consumption decreases by at least a configured Watt threshold (e.g., jumping down from 200W to 150W with a 20W threshold), the low-pass filter is immediately bypassed and the new value is adopted directly.
+  - **Power offset**: Configurable offset in Watts added to the final power value.
 - Energy counters are expected in **watt-hours (Wh)** to match the official spec — see
   [`docs/api-spec.md`](docs/api-spec.md).
 
